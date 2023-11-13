@@ -1,5 +1,6 @@
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { UserEntity } from 'src/users/user.entity';
 
 export const getConfigDB = async (configService: ConfigService): Promise<TypeOrmModuleOptions> => {
 	return {
@@ -9,7 +10,7 @@ export const getConfigDB = async (configService: ConfigService): Promise<TypeOrm
 		username: configService.get('MYSQL_USER'),
 		password: configService.get('MYSQL_PASSWORD'),
 		database: configService.get('MYSQL_DATABASE'),
-		entities: [],
-		synchronize: true,
+		entities: [UserEntity],
+		synchronize: false,
 	};
 };
