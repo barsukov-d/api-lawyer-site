@@ -11,6 +11,6 @@ export const getConfigDB = async (configService: ConfigService): Promise<TypeOrm
 		password: configService.get('MYSQL_PASSWORD'),
 		database: configService.get('MYSQL_DATABASE'),
 		entities: [UserEntity],
-		synchronize: false,
+		synchronize: true,
 	};
 };
