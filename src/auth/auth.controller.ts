@@ -14,6 +14,7 @@ import { HttpCode } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { USER_ALREADY_REGISTERED_ERROR } from './auth.const';
 import { JwtAuthGuard } from './guards/jwt.guard';
+import { UserEmail } from 'src/decorators/user-email.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -42,8 +43,9 @@ export class AuthController {
 
 	@UseGuards(JwtAuthGuard)
 	@Get('test/:id')
-	async test(@Param('id') id: string) {
+	async test(@Param('id') id: string, @UserEmail() email: string) {
 		console.log(id, 'id');
+		console.log(email, 'email');
 
 		return id;
 	}
