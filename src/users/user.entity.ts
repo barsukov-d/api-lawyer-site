@@ -1,22 +1,11 @@
+import { BaseEntity } from 'src/helpers/base.entity';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class UserEntity {
-	@PrimaryGeneratedColumn()
-	id: number;
+export class UserEntity extends BaseEntity {
+	@Column({ unique: true })
+	email: string;
 
 	@Column()
-	firstName: string;
-
-	@Column()
-	test: string;
-
-	@Column()
-	test777: string;
-
-	@Column()
-	lastName: string;
-
-	@Column({ default: true })
-	isActive: boolean;
+	passwordHash: string;
 }
