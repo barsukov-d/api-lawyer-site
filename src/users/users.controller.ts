@@ -7,6 +7,8 @@ export class UsersController {
 
 	@Get('getAllUsers')
 	async register() {
+		console.log('getAllUsers');
+
 		const allUsers = await this.userService.findAll();
 		return allUsers;
 	}
