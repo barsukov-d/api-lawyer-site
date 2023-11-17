@@ -1,8 +1,8 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthDto } from './dto/auth.dto';
-import { InjectRepository } from '@nestjs/typeorm';
-import { UserEntity } from 'src/users/user.entity';
-import { Repository } from 'typeorm';
+import { UserModel } from 'src/users/user.model';
+import { InjectModel } from '@nestjs/sequelize';
+import { Model } from 'sequelize-typescript';
 import { compare, genSalt, hash } from 'bcryptjs';
 import { USER_NOT_FOUND_ERROR, WRONG_PASSWORD_ERROR } from './auth.const';
 import { JwtService } from '@nestjs/jwt';
@@ -10,25 +10,25 @@ import { JwtService } from '@nestjs/jwt';
 @Injectable()
 export class AuthService {
 	constructor(
-		@InjectRepository(UserEntity)
-		private readonly usersRepository: Repository<UserEntity>,
+		@InjectModel(UserModel)
+		private userRepository: typeof UserModel,
 		private readonly jwtService: JwtService,
 	) {}
 
 	async createUser(dto: AuthDto) {
 		const salt = await genSalt(10);
-		const newUser = new UserEntity();
+		const newUser = new UserModel();
 		newUser.email = dto.login;
 		newUser.passwordHash = await hash(dto.password, salt);
 
-		return this.usersRepository.save(newUser);
+		return newUser.save();
 	}
 
 	async findUser(email: string) {
-		return this.usersRepository.findOne({ where: { email } });
+		return this.userRepository.findOne({ where: { email } });
 	}
 
-	async validateUser(email: string, password: string): Promise<Pick<UserEntity, 'email'>> {
+	async validateUser(email: string, password: string): Promise<Pick<UserModel, 'email'>> {
 		const user = await this.findUser(email);
 		if (!user) {
 			throw new UnauthorizedException(USER_NOT_FOUND_ERROR);

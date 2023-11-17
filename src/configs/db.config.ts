@@ -1,16 +1,16 @@
 import { ConfigService } from '@nestjs/config';
-import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { UserEntity } from 'src/users/user.entity';
+import { UserModel } from 'src/users/user.model';
 
-export const getConfigDB = async (configService: ConfigService): Promise<TypeOrmModuleOptions> => {
+TODO: 'fix this function to return the config Promise<any>';
+
+export const getConfigDB = async (configService: ConfigService): Promise<any> => {
 	return {
-		type: 'mysql',
+		dialect: 'mysql',
 		host: configService.get('HOST'),
 		port: configService.get('MYSQL_PORT'),
 		username: configService.get('MYSQL_USER'),
 		password: configService.get('MYSQL_PASSWORD'),
 		database: configService.get('MYSQL_DATABASE'),
-		entities: [UserEntity],
-		synchronize: true,
+		models: [UserModel],
 	};
 };
