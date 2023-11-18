@@ -15,11 +15,13 @@ import { AuthService } from './auth.service';
 import { USER_ALREADY_REGISTERED_ERROR } from './auth.const';
 import { JwtAuthGuard } from './guards/jwt.guard';
 import { UserEmail } from 'src/decorators/user-email.decorator';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('auth')
 export class AuthController {
 	constructor(private readonly authService: AuthService) {}
 
+	@ApiTags('auth')
 	@UsePipes(new ValidationPipe())
 	@Post('register')
 	async register(@Body() dto: AuthDto) {
@@ -33,6 +35,7 @@ export class AuthController {
 		return this.authService.createUser(dto);
 	}
 
+	@ApiTags('auth')
 	@UsePipes(new ValidationPipe())
 	@HttpCode(200)
 	@Post('login')
@@ -42,6 +45,7 @@ export class AuthController {
 		return this.authService.login(email);
 	}
 
+	@ApiTags('auth')
 	@UseGuards(JwtAuthGuard)
 	@Get('test/:id')
 	async test(@Param('id') id: string, @UserEmail() email: string) {
