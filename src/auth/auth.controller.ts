@@ -15,16 +15,31 @@ import { AuthService } from './auth.service';
 import { USER_ALREADY_REGISTERED_ERROR } from './auth.const';
 import { JwtAuthGuard } from './guards/jwt.guard';
 import { UserEmail } from 'src/decorators/user-email.decorator';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiTags, ApiResponse, ApiCreatedResponse } from '@nestjs/swagger';
+import { UserModel } from 'src/users/user.model';
+
+export interface ResponseApi {
+	status: number; // например 1 - успешно, 0 - ошибка
+	res: {
+		accessToken: string;
+
+		// и другие поля
+	};
+}
 
 @Controller('auth')
 export class AuthController {
 	constructor(private readonly authService: AuthService) {}
 
-	@ApiTags('auth')
+	@ApiTags('register')
 	@UsePipes(new ValidationPipe())
 	@Post('register')
-	async register(@Body() dto: AuthDto) {
+	// @ApiResponse({
+	// 	status: 200,
+	// 	description: 'Register user',
+	// 	type: UserModel,
+	// })
+	async register(@Body() dto: AuthDto): Promise<UserModel> {
 		console.log('test register');
 		const oldUser = await this.authService.findUser(dto.login);
 
@@ -36,10 +51,15 @@ export class AuthController {
 	}
 
 	@ApiTags('auth')
+	@ApiResponse({
+		status: 400,
+		description: 'Login user',
+		type: UserModel,
+	})
 	@UsePipes(new ValidationPipe())
 	@HttpCode(200)
 	@Post('login')
-	async login(@Body() { login, password }: AuthDto) {
+	async login(@Body() { login, password }: AuthDto): Promise<{ accessToken: string }> {
 		const { email } = await this.authService.validateUser(login, password);
 
 		return this.authService.login(email);

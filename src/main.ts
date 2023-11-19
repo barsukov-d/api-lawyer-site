@@ -11,7 +11,9 @@ async function bootstrap() {
 		.setVersion('1.0')
 		// .addTag('lawyer-api')
 		.build();
-	const document = SwaggerModule.createDocument(app, config);
+	const document = SwaggerModule.createDocument(app, config, {
+		ignoreGlobalPrefix: true,
+	});
 	SwaggerModule.setup('/api-docs', app, document);
 
 	app.setGlobalPrefix('api');
