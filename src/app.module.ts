@@ -6,6 +6,7 @@ import { ConfigService } from '@nestjs/config';
 import { getConfigDB } from './configs/db.config';
 import { UsersModule } from './users/users.module';
 // import { UsersService } from './users/users.service';
+import { PostsModule } from './posts/posts.module';
 
 @Module({
 	imports: [
@@ -17,6 +18,7 @@ import { UsersModule } from './users/users.module';
 		}),
 		AuthModule,
 		UsersModule,
+		PostsModule,
 	],
 	// providers: [UsersService],
 })
