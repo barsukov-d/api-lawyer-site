@@ -10,10 +10,6 @@ interface PostCreationAttrs {
 @Table({ tableName: 'posts_entity' })
 export class Post extends Model<Post, PostCreationAttrs> {
 	@ApiProperty()
-	@Column({ primaryKey: true, autoIncrement: true })
-	id: number;
-
-	@ApiProperty()
 	@Column({ unique: true })
 	title: string;
 
