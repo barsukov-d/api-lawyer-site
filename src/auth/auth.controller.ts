@@ -56,13 +56,13 @@ export class AuthController {
 		return this.authService.login(email);
 	}
 
-	@ApiTags('auth')
-	@UseGuards(JwtAuthGuard)
-	@Get('test/:id')
-	async test(@Param('id') id: string, @UserEmail() email: string) {
-		console.log(id, 'id');
-		console.log(email, 'email');
+	// @ApiTags('auth')
+	// @UseGuards(JwtAuthGuard)
+	// @Get('test/:id')
+	// async test(@Param('id') id: string, @UserEmail() email: string) {
+	// 	console.log(id, 'id');
+	// 	console.log(email, 'email');
 
-		return id;
-	}
+	// 	return id;
+	// }
 }

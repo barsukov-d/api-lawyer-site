@@ -18,35 +18,35 @@ import { ApiTags } from '@nestjs/swagger';
 export class PagesController {
 	constructor(private readonly pagesService: PagesService) {}
 
-	@ApiTags('posts')
+	@ApiTags('pages')
 	@UsePipes(new ValidationPipe())
-	@Post('create')
+	@Post()
 	async create(@Body() createPageDto: CreatePageDto) {
 		return this.pagesService.create(createPageDto);
 	}
 
-	@ApiTags('posts')
+	@ApiTags('pages')
 	@UsePipes(new ValidationPipe())
 	@Get()
 	findAll() {
 		return this.pagesService.findAll();
 	}
 
-	@ApiTags('posts')
+	@ApiTags('pages')
 	@UsePipes(new ValidationPipe())
 	@Get(':id')
 	findOne(@Param('id') id: string) {
 		return this.pagesService.findOne(+id);
 	}
 
-	@ApiTags('posts')
+	@ApiTags('pages')
 	@UsePipes(new ValidationPipe())
 	@Patch(':id')
 	update(@Param('id') id: string, @Body() updatePageDto: UpdatePageDto) {
 		return this.pagesService.update(+id, updatePageDto);
 	}
 
-	@ApiTags('posts')
+	@ApiTags('pages')
 	@UsePipes(new ValidationPipe())
 	@Delete(':id')
 	remove(@Param('id') id: string) {
