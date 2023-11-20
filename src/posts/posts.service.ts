@@ -11,6 +11,7 @@ export class PostsService implements OnModuleInit {
 		@InjectModel(Post)
 		private postRepository: typeof Post,
 	) {}
+
 	async onModuleInit() {
 		await this.postRepository.sync();
 	}

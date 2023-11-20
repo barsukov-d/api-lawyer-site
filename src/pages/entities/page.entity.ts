@@ -1,7 +1,14 @@
 import { Column, Model, Table } from 'sequelize-typescript';
 import { ApiProperty } from '@nestjs/swagger';
 
-interface PageCreationAttrs {}
+interface PageCreationAttrs {
+	title: string;
+	content: string;
+	slug: string;
+	metaTitle: string;
+	metaDescription: string;
+	metaKeywords: string;
+}
 
 @Table({ tableName: 'pages_entity' })
 export class Page extends Model<Page, PageCreationAttrs> {

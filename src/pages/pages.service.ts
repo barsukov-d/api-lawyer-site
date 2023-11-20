@@ -15,25 +15,35 @@ export class PagesService implements OnModuleInit {
 		await this.pageRepository.sync();
 	}
 
-	create(createPageDto: CreatePageDto) {
+	async create(createPageDto: CreatePageDto) {
 		const page = new this.pageRepository(createPageDto);
-		page.save();
+		await page.save();
 		return page;
 	}
 
 	findAll() {
-		return `This action returns all pages`;
+		const pages = this.pageRepository.findAll();
+		return pages;
 	}
 
 	findOne(id: number) {
-		return `This action returns a #${id} page`;
+		const page = this.pageRepository.findOne({
+			where: { id },
+		});
+		return page;
 	}
 
 	update(id: number, updatePageDto: UpdatePageDto) {
-		return `This action updates a #${id} page`;
+		const page = this.pageRepository.update(updatePageDto, {
+			where: { id },
+		});
+		return page;
 	}
 
 	remove(id: number) {
-		return `This action removes a #${id} page`;
+		const page = this.pageRepository.destroy({
+			where: { id },
+		});
+		return page;
 	}
 }

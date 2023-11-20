@@ -2,15 +2,14 @@ import { Column, Model, Table } from 'sequelize-typescript';
 import { ApiProperty } from '@nestjs/swagger';
 
 interface PostCreationAttrs {
-	id: number;
 	title: string;
 	content: string;
 }
 
-@Table({ tableName: 'posts_entity' })
+@Table({ tableName: 'posts_entity2' })
 export class Post extends Model<Post, PostCreationAttrs> {
 	@ApiProperty()
-	@Column({ unique: true })
+	@Column
 	title: string;
 
 	@ApiProperty()
