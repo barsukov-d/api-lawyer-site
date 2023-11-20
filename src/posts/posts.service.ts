@@ -21,19 +21,29 @@ export class PostsService implements OnModuleInit {
 		return post;
 	}
 
-	findAll() {
-		return `This action returns all posts`;
+	async findAll() {
+		const posts = await this.postRepository.findAll();
+		return posts;
 	}
 
-	findOne(id: number) {
-		return `This action returns a #${id} post`;
+	async findOne(id: number) {
+		const post = await this.postRepository.findOne({
+			where: { id },
+		});
+		return post;
 	}
 
-	update(id: number, updatePostDto: UpdatePostDto) {
-		return `This action updates a #${id} post`;
+	async update(id: number, updatePostDto: UpdatePostDto) {
+		const post = await this.postRepository.update(updatePostDto, {
+			where: { id },
+		});
+		return post;
 	}
 
-	remove(id: number) {
-		return `This action removes a #${id} post`;
+	async remove(id: number) {
+		const post = await this.postRepository.destroy({
+			where: { id },
+		});
+		return post;
 	}
 }
