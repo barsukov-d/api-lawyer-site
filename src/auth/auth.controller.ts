@@ -18,15 +18,6 @@ import { UserEmail } from 'src/decorators/user-email.decorator';
 import { ApiTags, ApiResponse, ApiCreatedResponse } from '@nestjs/swagger';
 import { UserModel } from 'src/users/user.model';
 
-export interface ResponseApi {
-	status: number; // например 1 - успешно, 0 - ошибка
-	res: {
-		accessToken: string;
-
-		// и другие поля
-	};
-}
-
 @Controller('auth')
 export class AuthController {
 	constructor(private readonly authService: AuthService) {}
@@ -34,11 +25,11 @@ export class AuthController {
 	@ApiTags('register')
 	@UsePipes(new ValidationPipe())
 	@Post('register')
-	// @ApiResponse({
-	// 	status: 200,
-	// 	description: 'Register user',
-	// 	type: UserModel,
-	// })
+	@ApiResponse({
+		status: 200,
+		description: 'Register user',
+		type: UserModel,
+	})
 	async register(@Body() dto: AuthDto): Promise<UserModel> {
 		console.log('test register');
 		const oldUser = await this.authService.findUser(dto.login);

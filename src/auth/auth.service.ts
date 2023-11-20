@@ -2,7 +2,6 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthDto } from './dto/auth.dto';
 import { UserModel } from 'src/users/user.model';
 import { InjectModel } from '@nestjs/sequelize';
-import { Model } from 'sequelize-typescript';
 import { compare, genSalt, hash } from 'bcryptjs';
 import { USER_NOT_FOUND_ERROR, WRONG_PASSWORD_ERROR } from './auth.const';
 import { JwtService } from '@nestjs/jwt';
