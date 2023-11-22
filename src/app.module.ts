@@ -7,6 +7,7 @@ import { getConfigDB } from './configs/db.config';
 import { UsersModule } from './users/users.module';
 // import { UsersService } from './users/users.service';
 import { PostsModule } from './posts/posts.module';
+import { PagesModule } from './pages/pages.module';
 
 @Module({
 	imports: [
@@ -19,6 +20,7 @@ import { PostsModule } from './posts/posts.module';
 		AuthModule,
 		UsersModule,
 		PostsModule,
+		PagesModule,
 	],
 	// providers: [UsersService],
 })

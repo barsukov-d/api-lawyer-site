@@ -22,8 +22,8 @@ export class PostsController {
 
 	@ApiTags('posts')
 	@UsePipes(new ValidationPipe())
-	@UseGuards(JwtAuthGuard)
-	@Post('create')
+	// @UseGuards(JwtAuthGuard)
+	@Post()
 	async create(@Body() createPostDto: CreatePostDto) {
 		console.log('createPostDto', createPostDto);
 
