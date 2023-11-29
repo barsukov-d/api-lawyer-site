@@ -1,9 +1,16 @@
-import { Column, Model, Table } from 'sequelize-typescript';
+import { Column, DataType, Model, Table } from 'sequelize-typescript';
 import { ApiProperty } from '@nestjs/swagger';
 
 interface PostCreationAttrs {
 	title: string;
+	description: string;
 	content: string;
+	image: string;
+	categories: string[] | string;
+	tags: string[] | string;
+	publicationStatus: string;
+	metaTags: string[] | string;
+	// permalink: string;
 }
 
 @Table({ tableName: 'posts_entity' })
@@ -17,7 +24,7 @@ export class Post extends Model<Post, PostCreationAttrs> {
 	description: string;
 
 	@ApiProperty()
-	@Column
+	@Column(DataType.TEXT)
 	content: string;
 
 	@ApiProperty()
@@ -25,12 +32,12 @@ export class Post extends Model<Post, PostCreationAttrs> {
 	image: string;
 
 	@ApiProperty()
-	@Column
-	categories: string[];
+	@Column(DataType.TEXT)
+	categories: string[] | string;
 
 	@ApiProperty()
-	@Column
-	tags: string[];
+	@Column(DataType.TEXT)
+	tags: string[] | string;
 
 	@ApiProperty()
 	@Column
@@ -41,10 +48,10 @@ export class Post extends Model<Post, PostCreationAttrs> {
 	author: string;
 
 	@ApiProperty()
-	@Column
-	metaTags: string[];
+	@Column(DataType.TEXT)
+	metaTags: string[] | string;
 
-	@ApiProperty()
-	@Column
-	permalink: string;
+	// @ApiProperty()
+	// @Column
+	// permalink: string;
 }

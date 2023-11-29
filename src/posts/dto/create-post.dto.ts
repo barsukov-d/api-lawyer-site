@@ -20,11 +20,11 @@ export class CreatePostDto {
 
 	@IsString({ each: true })
 	@ApiProperty()
-	categories: string[];
+	categories: string;
 
 	@IsString({ each: true })
 	@ApiProperty()
-	tags: string[];
+	tags: string;
 
 	@IsString()
 	@ApiProperty()
@@ -36,9 +36,9 @@ export class CreatePostDto {
 
 	@IsString({ each: true })
 	@ApiProperty()
-	metaTags: string[];
+	metaTags: string;
 
-	@IsString()
-	@ApiProperty()
-	permalink: string;
+	// @IsString()
+	// @ApiProperty()
+	// permalink: string;
 }
