@@ -3,11 +3,11 @@ import { ApiProperty } from '@nestjs/swagger';
 
 interface UserCreationAttrs {
 	email: string;
-	password: string;
+	passwordHash: string;
 }
 
 @Table({ tableName: 'user_entity' })
-export class UserModel extends Model<UserModel, UserCreationAttrs> {
+export class User extends Model<User, UserCreationAttrs> {
 	@ApiProperty()
 	@Column({ unique: true })
 	email: string;

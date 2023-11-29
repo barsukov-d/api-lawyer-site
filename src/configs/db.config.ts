@@ -1,5 +1,5 @@
 import { ConfigService } from '@nestjs/config';
-import { UserModel } from 'src/users/user.model';
+import { User } from 'src/users/entities/user.entities';
 import { Post } from 'src/posts/entities/post.entity';
 import { Page } from 'src/pages/entities/page.entity';
 
@@ -13,6 +13,6 @@ export const getConfigDB = async (configService: ConfigService): Promise<any> =>
 		username: configService.get('MYSQL_USER'),
 		password: configService.get('MYSQL_PASSWORD'),
 		database: configService.get('MYSQL_DATABASE'),
-		models: [UserModel, Post, Page],
+		models: [User, Post, Page],
 	};
 };
