@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { UserModel } from 'src/users/user.model';
+import { User } from 'src/users/entities/user.entities';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { getJWTConfig } from 'src/configs/jwt.config';
@@ -11,7 +11,7 @@ import { JwtStratagy } from './strategies/jwt.strategy';
 
 @Module({
 	imports: [
-		SequelizeModule.forFeature([UserModel]),
+		SequelizeModule.forFeature([User]),
 		ConfigModule,
 		JwtModule.registerAsync({
 			imports: [ConfigModule],

@@ -6,7 +6,7 @@ interface PostCreationAttrs {
 	content: string;
 }
 
-@Table({ tableName: 'posts_entity2' })
+@Table({ tableName: 'posts_entity' })
 export class Post extends Model<Post, PostCreationAttrs> {
 	@ApiProperty()
 	@Column
@@ -14,5 +14,37 @@ export class Post extends Model<Post, PostCreationAttrs> {
 
 	@ApiProperty()
 	@Column
+	description: string;
+
+	@ApiProperty()
+	@Column
 	content: string;
+
+	@ApiProperty()
+	@Column
+	image: string;
+
+	@ApiProperty()
+	@Column
+	categories: string[];
+
+	@ApiProperty()
+	@Column
+	tags: string[];
+
+	@ApiProperty()
+	@Column
+	publicationStatus: string;
+
+	@ApiProperty()
+	@Column
+	author: string;
+
+	@ApiProperty()
+	@Column
+	metaTags: string[];
+
+	@ApiProperty()
+	@Column
+	permalink: string;
 }

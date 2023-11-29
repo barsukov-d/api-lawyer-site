@@ -16,7 +16,7 @@ import { USER_ALREADY_REGISTERED_ERROR } from './auth.const';
 import { JwtAuthGuard } from './guards/jwt.guard';
 import { UserEmail } from 'src/decorators/user-email.decorator';
 import { ApiTags, ApiResponse, ApiCreatedResponse } from '@nestjs/swagger';
-import { UserModel } from 'src/users/user.model';
+import { User } from 'src/users/entities/user.entities';
 
 @Controller('auth')
 export class AuthController {
@@ -28,9 +28,9 @@ export class AuthController {
 	@ApiResponse({
 		status: 200,
 		description: 'Register user',
-		type: UserModel,
+		type: User,
 	})
-	async register(@Body() dto: AuthDto): Promise<UserModel> {
+	async register(@Body() dto: AuthDto): Promise<User> {
 		console.log('test register');
 		const oldUser = await this.authService.findUser(dto.login);
 
@@ -45,7 +45,7 @@ export class AuthController {
 	@ApiResponse({
 		status: 400,
 		description: 'Login user',
-		type: UserModel,
+		type: User,
 	})
 	@UsePipes(new ValidationPipe())
 	@HttpCode(200)

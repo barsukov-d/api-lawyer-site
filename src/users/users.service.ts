@@ -1,19 +1,22 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { UserModel } from './user.model';
+import { User } from './entities/user.entities';
 
 @Injectable()
-export class UsersService {
+export class UsersService implements OnModuleInit {
 	constructor(
-		@InjectModel(UserModel)
-		private userRepository: typeof UserModel,
+		@InjectModel(User)
+		private userRepository: typeof User,
 	) {}
+	async onModuleInit() {
+		await this.userRepository.sync();
+	}
 
-	async findAll(): Promise<UserModel[]> {
+	async findAll(): Promise<User[]> {
 		return this.userRepository.findAll();
 	}
 
-	async findOne(id: number): Promise<UserModel | null> {
+	async findOne(id: number): Promise<User | null> {
 		return this.userRepository.findOne({ where: { id } });
 	}
 
