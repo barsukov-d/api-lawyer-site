@@ -17,6 +17,9 @@ export class PostsService implements OnModuleInit {
 	}
 
 	async create(createPostDto: CreatePostDto) {
+		createPostDto.categories = JSON.stringify(createPostDto.categories);
+		createPostDto.tags = JSON.stringify(createPostDto.tags);
+		createPostDto.metaTags = JSON.stringify(createPostDto.metaTags);
 		const post = new this.postRepository(createPostDto);
 		await post.save();
 		return post;
