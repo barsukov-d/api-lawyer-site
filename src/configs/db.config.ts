@@ -3,6 +3,7 @@ import { User } from 'src/users/entities/user.entities';
 import { Post } from 'src/posts/entities/post.entity';
 import { Page } from 'src/pages/entities/page.entity';
 import { Category } from 'src/categories/entities/category.entity';
+import { Tag } from 'src/tags/entities/tag.entity';
 
 TODO: 'fix this function to return the config Promise<any>';
 
@@ -14,6 +15,6 @@ export const getConfigDB = async (configService: ConfigService): Promise<any> =>
 		username: configService.get('MYSQL_USER'),
 		password: configService.get('MYSQL_PASSWORD'),
 		database: configService.get('MYSQL_DATABASE'),
-		models: [User, Post, Page, Category],
+		models: [User, Post, Page, Category, Tag],
 	};
 };

@@ -9,6 +9,7 @@ import { UsersModule } from './users/users.module';
 import { PostsModule } from './posts/posts.module';
 import { PagesModule } from './pages/pages.module';
 import { CategoriesModule } from './categories/categories.module';
+import { TagsModule } from './tags/tags.module';
 
 @Module({
 	imports: [
@@ -23,6 +24,7 @@ import { CategoriesModule } from './categories/categories.module';
 		PostsModule,
 		PagesModule,
 		CategoriesModule,
+		TagsModule,
 	],
 	// providers: [UsersService],
 })

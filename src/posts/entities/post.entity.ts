@@ -1,5 +1,6 @@
 import {
 	BelongsTo,
+	BelongsToMany,
 	Column,
 	DataType,
 	ForeignKey,
@@ -9,6 +10,8 @@ import {
 } from 'sequelize-typescript';
 import { ApiProperty } from '@nestjs/swagger';
 import { Category } from 'src/categories/entities/category.entity';
+import { Tag } from 'src/tags/entities/tag.entity';
+import { PostTag } from './post-tag.entity';
 
 interface PostCreationAttrs {
 	title: string;
@@ -48,9 +51,8 @@ export class Post extends Model<Post, PostCreationAttrs> {
 	@BelongsTo(() => Category)
 	category: Category;
 
-	// @ApiProperty()
-	// @Column(DataType.TEXT)
-	// tags: string[] | string;
+	@BelongsToMany(() => Tag, () => PostTag)
+	authors: Tag[];
 
 	// @ApiProperty()
 	// @Column
