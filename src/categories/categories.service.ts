@@ -21,18 +21,31 @@ export class CategoriesService implements OnModuleInit {
 	}
 
 	findAll() {
-		return `This action returns all categories`;
+		const categories = this.categoriesRepository.findAll();
+		return categories;
 	}
 
 	findOne(id: number) {
-		return `This action returns a #${id} category`;
+		const category = this.categoriesRepository.findOne({
+			where: { id },
+		});
+
+		return category;
 	}
 
 	update(id: number, updateCategoryDto: UpdateCategoryDto) {
-		return `This action updates a #${id} category`;
+		const category = this.categoriesRepository.update(updateCategoryDto, {
+			where: { id },
+		});
+
+		return category;
 	}
 
 	remove(id: number) {
-		return `This action removes a #${id} category`;
+		const category = this.categoriesRepository.destroy({
+			where: { id },
+		});
+
+		return category;
 	}
 }

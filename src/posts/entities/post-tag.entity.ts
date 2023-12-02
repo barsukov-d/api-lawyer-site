@@ -1,4 +1,4 @@
-import { Column, ForeignKey, Model } from 'sequelize-typescript';
+import { Column, ForeignKey, Model, Table } from 'sequelize-typescript';
 import { Post } from './post.entity';
 import { Tag } from 'src/tags/entities/tag.entity';
 
@@ -7,6 +7,7 @@ export interface PostTagAttrs {
 	tagId: number;
 }
 
+@Table({ tableName: 'post-tag_entity' })
 export class PostTag extends Model<PostTag, PostTagAttrs> {
 	@ForeignKey(() => Post)
 	@Column

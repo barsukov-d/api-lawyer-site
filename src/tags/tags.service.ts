@@ -16,22 +16,36 @@ export class TagsService implements OnModuleInit {
 	}
 
 	create(createTagDto: CreateTagDto) {
-		return 'This action adds a new tag';
+		const tag = new this.tagRepository(createTagDto);
+		return tag;
 	}
 
 	findAll() {
-		return `This action returns all tags`;
+		const tags = this.tagRepository.findAll();
+		return tags;
 	}
 
 	findOne(id: number) {
-		return `This action returns a #${id} tag`;
+		const tag = this.tagRepository.findOne({
+			where: { id },
+		});
+
+		return tag;
 	}
 
 	update(id: number, updateTagDto: UpdateTagDto) {
-		return `This action updates a #${id} tag`;
+		const tag = this.tagRepository.update(updateTagDto, {
+			where: { id },
+		});
+
+		return tag;
 	}
 
 	remove(id: number) {
-		return `This action removes a #${id} tag`;
+		const tag = this.tagRepository.destroy({
+			where: { id },
+		});
+
+		return tag;
 	}
 }

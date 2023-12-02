@@ -12,6 +12,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Category } from 'src/categories/entities/category.entity';
 import { Tag } from 'src/tags/entities/tag.entity';
 import { PostTag } from './post-tag.entity';
+// import { PostTag } from './post-tag.entity';
 
 interface PostCreationAttrs {
 	title: string;
@@ -19,7 +20,7 @@ interface PostCreationAttrs {
 	content: string;
 	image: string;
 	categoryId: number;
-	// tags: string[] | string;
+	tags: Tag[];
 	// publicationStatus: string;
 	// metaTags: string[] | string;
 	// permalink: string;
@@ -52,7 +53,7 @@ export class Post extends Model<Post, PostCreationAttrs> {
 	category: Category;
 
 	@BelongsToMany(() => Tag, () => PostTag)
-	authors: Tag[];
+	tags: Tag[];
 
 	// @ApiProperty()
 	// @Column
