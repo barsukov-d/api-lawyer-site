@@ -1,5 +1,6 @@
 import { IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { Tag } from 'src/tags/entities/tag.entity';
 
 export class CreatePostDto {
 	@IsString()
@@ -24,19 +25,7 @@ export class CreatePostDto {
 
 	@IsString({ each: true })
 	@ApiProperty()
-	tags: string;
-
-	@IsString()
-	@ApiProperty()
-	publicationStatus: string;
-
-	@IsString()
-	@ApiProperty()
-	author: string;
-
-	@IsString({ each: true })
-	@ApiProperty()
-	metaTags: string;
+	tags: Tag[];
 
 	// @IsString()
 	// @ApiProperty()

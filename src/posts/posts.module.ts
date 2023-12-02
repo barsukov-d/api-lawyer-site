@@ -3,9 +3,10 @@ import { PostsService } from './posts.service';
 import { PostsController } from './posts.controller';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Post } from './entities/post.entity';
+import { PostTag } from './entities/post-tag.entity';
 
 @Module({
-	imports: [SequelizeModule.forFeature([Post])],
+	imports: [SequelizeModule.forFeature([Post, PostTag])],
 	controllers: [PostsController],
 	providers: [PostsService],
 })

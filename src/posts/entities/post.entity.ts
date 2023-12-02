@@ -1,15 +1,28 @@
-import { Column, DataType, Model, Table } from 'sequelize-typescript';
+import {
+	BelongsTo,
+	BelongsToMany,
+	Column,
+	DataType,
+	ForeignKey,
+	HasMany,
+	Model,
+	Table,
+} from 'sequelize-typescript';
 import { ApiProperty } from '@nestjs/swagger';
+import { Category } from 'src/categories/entities/category.entity';
+import { Tag } from 'src/tags/entities/tag.entity';
+import { PostTag } from './post-tag.entity';
+// import { PostTag } from './post-tag.entity';
 
 interface PostCreationAttrs {
 	title: string;
 	description: string;
 	content: string;
 	image: string;
-	categories: string[] | string;
-	tags: string[] | string;
-	publicationStatus: string;
-	metaTags: string[] | string;
+	categoryId: number;
+	tags: Tag[];
+	// publicationStatus: string;
+	// metaTags: string[] | string;
 	// permalink: string;
 }
 
@@ -32,24 +45,27 @@ export class Post extends Model<Post, PostCreationAttrs> {
 	image: string;
 
 	@ApiProperty()
-	@Column(DataType.TEXT)
-	categories: string[] | string;
-
-	@ApiProperty()
-	@Column(DataType.TEXT)
-	tags: string[] | string;
-
-	@ApiProperty()
+	@ForeignKey(() => Category)
 	@Column
-	publicationStatus: string;
+	categoryId: number;
 
-	@ApiProperty()
-	@Column
-	author: string;
+	@BelongsTo(() => Category)
+	category: Category;
 
-	@ApiProperty()
-	@Column(DataType.TEXT)
-	metaTags: string[] | string;
+	@BelongsToMany(() => Tag, () => PostTag)
+	tags: Tag[];
+
+	// @ApiProperty()
+	// @Column
+	// publicationStatus: string;
+
+	// @ApiProperty()
+	// @Column
+	// author: string;
+
+	// @ApiProperty()
+	// @Column()
+	// metaTags: string[] | string;
 
 	// @ApiProperty()
 	// @Column
