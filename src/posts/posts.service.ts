@@ -1,11 +1,9 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
-
 import { Post } from './entities/post.entity';
 import { InjectModel } from '@nestjs/sequelize';
 import { PostTag } from './entities/post-tag.entity';
-import { log } from 'console';
 import { Tag } from 'src/tags/entities/tag.entity';
 import { Category } from 'src/categories/entities/category.entity';
 
@@ -41,13 +39,12 @@ export class PostsService implements OnModuleInit {
 	}
 
 	async findAll() {
-		console.log('findAll');
-
 		const posts = await this.postRepository.findAll({
 			include: [
 				{ model: Tag, through: { attributes: [] } }, // exclude PostTag attributes
 				{ model: Category },
 			],
+			order: [['createdAt', 'DESC']],
 		});
 		return posts;
 	}
