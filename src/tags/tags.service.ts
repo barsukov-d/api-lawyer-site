@@ -15,8 +15,9 @@ export class TagsService implements OnModuleInit {
 		await this.tagRepository.sync();
 	}
 
-	create(createTagDto: CreateTagDto) {
+	async create(createTagDto: CreateTagDto) {
 		const tag = new this.tagRepository(createTagDto);
+		await tag.save();
 		return tag;
 	}
 

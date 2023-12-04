@@ -21,9 +21,9 @@ interface PostCreationAttrs {
 	image: string;
 	categoryId: number;
 	tags: Tag[];
-	// publicationStatus: string;
-	// metaTags: string[] | string;
-	// permalink: string;
+	publicationStatus: string;
+	author: string;
+	metaTags: string;
 }
 
 @Table({ tableName: 'posts_entity' })
@@ -55,19 +55,15 @@ export class Post extends Model<Post, PostCreationAttrs> {
 	@BelongsToMany(() => Tag, () => PostTag)
 	tags: Tag[];
 
-	// @ApiProperty()
-	// @Column
-	// publicationStatus: string;
+	@ApiProperty()
+	@Column
+	publicationStatus: string;
 
-	// @ApiProperty()
-	// @Column
-	// author: string;
+	@ApiProperty()
+	@Column
+	author: string;
 
-	// @ApiProperty()
-	// @Column()
-	// metaTags: string[] | string;
-
-	// @ApiProperty()
-	// @Column
-	// permalink: string;
+	@ApiProperty()
+	@Column
+	metaTags: string;
 }

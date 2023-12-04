@@ -15,6 +15,7 @@ import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
+import { log } from 'console';
 
 @Controller('posts')
 export class PostsController {
@@ -34,6 +35,8 @@ export class PostsController {
 	@UsePipes(new ValidationPipe())
 	@Get()
 	findAll() {
+		console.log('findAll');
+
 		return this.postsService.findAll();
 	}
 
