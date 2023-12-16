@@ -61,9 +61,27 @@ export class PostsService implements OnModuleInit {
 	}
 
 	async update(id: number, updatePostDto: UpdatePostDto) {
-		const post = await this.postRepository.update(updatePostDto, {
+		await this.postRepository.update(updatePostDto, {
 			where: { id },
 		});
+
+		// Retrieve the updated post
+		const post = await this.postRepository.findOne({ where: { id } });
+
+		if (updatePostDto.tagIds && updatePostDto.tagIds.length > 0) {
+			// Получаем теги по их ID
+			const tags = await this.tagRepository.findAll({ where: { id: updatePostDto.tagIds } });
+
+			// Удаляем все теги у поста
+
+			await post.$set('tags', []);
+
+			// Добавляем теги к посту
+			if (post) {
+				await post.$add('tags', tags, { through: { attributes: [] } });
+			}
+		}
+
 		return post;
 	}
 
