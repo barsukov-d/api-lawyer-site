@@ -1,10 +1,11 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
-
 import { Post } from './entities/post.entity';
 import { InjectModel } from '@nestjs/sequelize';
 import { PostTag } from './entities/post-tag.entity';
+import { Tag } from 'src/tags/entities/tag.entity';
+import { Category } from 'src/categories/entities/category.entity';
 
 @Injectable()
 export class PostsService implements OnModuleInit {
@@ -13,6 +14,8 @@ export class PostsService implements OnModuleInit {
 		private postRepository: typeof Post,
 		@InjectModel(PostTag)
 		private postTagRepository: typeof PostTag,
+		@InjectModel(Tag)
+		private tagRepository: typeof Tag,
 	) {}
 
 	async onModuleInit() {
@@ -21,22 +24,38 @@ export class PostsService implements OnModuleInit {
 	}
 
 	async create(createPostDto: CreatePostDto) {
-		// createPostDto.categories = JSON.stringify(createPostDto.categories);
-		// createPostDto.tags = JSON.stringify(createPostDto.tags);
-		// createPostDto.metaTags = JSON.stringify(createPostDto.metaTags);
 		const post = new this.postRepository(createPostDto);
 		await post.save();
+
+		if (createPostDto.tagIds && createPostDto.tagIds.length > 0) {
+			// Получаем теги по их ID
+			const tags = await this.tagRepository.findAll({ where: { id: createPostDto.tagIds } });
+
+			// Добавляем теги к посту
+			await post.$add('tags', tags, { through: { attributes: [] } });
+		}
+
 		return post;
 	}
 
 	async findAll() {
-		const posts = await this.postRepository.findAll();
+		const posts = await this.postRepository.findAll({
+			include: [
+				{ model: Tag, through: { attributes: [] } }, // exclude PostTag attributes
+				{ model: Category },
+			],
+			order: [['createdAt', 'DESC']],
+		});
 		return posts;
 	}
 
 	async findOne(id: number) {
 		const post = await this.postRepository.findOne({
 			where: { id },
+			include: [
+				{ model: Tag, through: { attributes: [] } }, // exclude PostTag attributes
+				{ model: Category },
+			],
 		});
 		return post;
 	}
