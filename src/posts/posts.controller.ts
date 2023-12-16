@@ -49,7 +49,7 @@ export class PostsController {
 
 	@ApiTags('posts')
 	@UsePipes(new ValidationPipe())
-	@UseGuards(JwtAuthGuard)
+	// @UseGuards(JwtAuthGuard)
 	@Patch(':id')
 	update(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto) {
 		return this.postsService.update(+id, updatePostDto);
@@ -57,7 +57,7 @@ export class PostsController {
 
 	@ApiTags('posts')
 	@UsePipes(new ValidationPipe())
-	@UseGuards(JwtAuthGuard)
+	// @UseGuards(JwtAuthGuard)
 	@Delete(':id')
 	remove(@Param('id') id: string) {
 		return this.postsService.remove(+id);
