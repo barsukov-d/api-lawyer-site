@@ -11,6 +11,7 @@ import { PagesModule } from './pages/pages.module';
 import { CategoriesModule } from './categories/categories.module';
 import { TagsModule } from './tags/tags.module';
 import { FilesModule } from './files/files.module';
+import { FilesModule } from './files/files.module';
 
 @Module({
 	imports: [
