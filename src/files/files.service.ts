@@ -8,6 +8,7 @@ import { MFile } from './dto/mfile.class';
 import { join } from 'path';
 import { InjectModel } from '@nestjs/sequelize';
 import { FileInfo } from './entities/file.entity';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class FilesService implements OnModuleInit {
@@ -35,11 +36,17 @@ export class FilesService implements OnModuleInit {
 			});
 
 			const newFile = this.fileInfoRepository.create({
+				fileUuid: uuidv4(),
 				name: file.originalname,
 				url: `${dateFolder}/${file.originalname}`,
-				uploadDate: new Date(),
 				type: 'file.mimetype',
-				size: 22,
+
+				// 				id -
+				// file - uuid файла
+				// ext - расширение файла
+				// type - emun [image, video, text, sound]
+				// path - путь к исходнику
+				// name - имя файла при загрузке
 			});
 			await (await newFile).save();
 		}
