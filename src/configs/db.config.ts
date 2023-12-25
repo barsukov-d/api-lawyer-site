@@ -19,5 +19,6 @@ export const getConfigDB = async (configService: ConfigService): Promise<any> =>
 		database: configService.get('MYSQL_DATABASE'),
 		synchronize: true,
 		models: [User, Post, Page, Category, Tag, PostTag, FileInfo],
+		logging: console.log,
 	};
 };

@@ -1,5 +1,7 @@
 import {
+	Body,
 	Controller,
+	Delete,
 	Get,
 	HttpCode,
 	Post,
@@ -35,8 +37,6 @@ export class FilesController {
 	): Promise<FileElementResponse[]> {
 		const saveArray: MFile[] = [];
 		for (const file of files) {
-			console.log(file, 'file');
-
 			if (file.mimetype.includes('image')) {
 				const buffer = await this.filesService.convertToWebP(file.buffer);
 				saveArray.push(
@@ -56,5 +56,19 @@ export class FilesController {
 	@Get('all')
 	async getAllFiles() {
 		return this.filesService.getAllFiles();
+	}
+
+	@ApiTags('files')
+	@Get('all-webp')
+	async getAllFilesByWebP() {
+		return this.filesService.getAllFilesByWebP();
+	}
+
+	@ApiTags('files')
+	@Delete('delete')
+	@HttpCode(200)
+	@UseGuards(JwtAuthGuard)
+	async deleteFile(@Body() body: { fileUuid: string }) {
+		return this.filesService.removeFile(body.fileUuid);
 	}
 }

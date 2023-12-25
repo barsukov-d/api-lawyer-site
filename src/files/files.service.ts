@@ -9,7 +9,7 @@ import { join } from 'path';
 import { InjectModel } from '@nestjs/sequelize';
 import { FileInfo } from './entities/file.entity';
 import { v4 as uuidv4 } from 'uuid';
-
+import { Op } from 'sequelize';
 @Injectable()
 export class FilesService implements OnModuleInit {
 	constructor(
@@ -30,25 +30,19 @@ export class FilesService implements OnModuleInit {
 		for (const file of files) {
 			await writeFile(`${uploadFolder}/${file.originalname}`, file.buffer);
 
+			const newFile = new this.fileInfoRepository({
+				fileUuid: uuidv4(),
+				name: file.originalname,
+				url: `${dateFolder}/${file.originalname}`,
+				type: file.mimetype,
+			});
+
+			await newFile.save();
+
 			res.push({
 				url: `${dateFolder}/${file.originalname}`,
 				name: file.originalname,
 			});
-
-			const newFile = this.fileInfoRepository.create({
-				fileUuid: uuidv4(),
-				name: file.originalname,
-				url: `${dateFolder}/${file.originalname}`,
-				type: 'file.mimetype',
-
-				// 				id -
-				// file - uuid файла
-				// ext - расширение файла
-				// type - emun [image, video, text, sound]
-				// path - путь к исходнику
-				// name - имя файла при загрузке
-			});
-			await (await newFile).save();
 		}
 
 		return res;
@@ -79,5 +73,24 @@ export class FilesService implements OnModuleInit {
 	async getAllFiles(): Promise<FileElementResponse[]> {
 		const files = await this.getFilesFromDir(`${path}/uploads`);
 		return files;
+	}
+
+	async getAllFilesByWebP() {
+		return this.fileInfoRepository.findAll({
+			where: {
+				name: {
+					[Op.like]: '%.webp',
+				},
+			},
+		});
+	}
+
+	async removeFile(fileUuid: string) {
+		const file = await this.fileInfoRepository.findOne({
+			where: {
+				fileUuid,
+			},
+		});
+		await file.destroy();
 	}
 }
