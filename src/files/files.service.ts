@@ -1,4 +1,4 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
 import { FileElementResponse } from './dto/file-element.response';
 import { format } from 'date-fns';
 import { path } from 'app-root-path';
@@ -10,6 +10,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { FileInfo } from './entities/file.entity';
 import { v4 as uuidv4 } from 'uuid';
 import { Op } from 'sequelize';
+import { rmdir, unlink } from 'fs/promises';
 @Injectable()
 export class FilesService implements OnModuleInit {
 	constructor(
@@ -78,11 +79,31 @@ export class FilesService implements OnModuleInit {
 	async getAllFilesByWebP() {
 		return this.fileInfoRepository.findAll({
 			where: {
-				name: {
-					[Op.like]: '%.webp',
+				type: {
+					[Op.like]: '%image%',
 				},
 			},
 		});
+	}
+
+	async deleteEmptyFolder(directoryPath: string): Promise<void> {
+		try {
+			const files = await readdir(directoryPath);
+
+			if (files.length === 0) {
+				await rmdir(directoryPath);
+			}
+		} catch (err) {
+			console.error(`Error while deleting directory ${directoryPath}.`, err);
+		}
+	}
+
+	async removeFileOnDisk(filePath: string): Promise<void> {
+		try {
+			await unlink(filePath);
+		} catch (err) {
+			console.error(`Error while deleting file ${filePath}.`, err);
+		}
 	}
 
 	async removeFile(fileUuid: string) {
@@ -91,6 +112,11 @@ export class FilesService implements OnModuleInit {
 				fileUuid,
 			},
 		});
+
+		this.removeFileOnDisk(`${path}/uploads/${file.url}`);
+
 		await file.destroy();
+
+		this.deleteEmptyFolder(`${path}/uploads/${file.url.split('/')[0]}`);
 	}
 }
