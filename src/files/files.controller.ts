@@ -4,11 +4,14 @@ import {
 	Delete,
 	Get,
 	HttpCode,
+	Param,
 	Post,
 	UploadedFile,
 	UploadedFiles,
 	UseGuards,
 	UseInterceptors,
+	UsePipes,
+	ValidationPipe,
 } from '@nestjs/common';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
@@ -65,10 +68,19 @@ export class FilesController {
 	}
 
 	@ApiTags('files')
-	@Delete('delete')
-	@HttpCode(200)
-	@UseGuards(JwtAuthGuard)
-	async deleteFile(@Body() body: { fileUuid: string }) {
-		return this.filesService.removeFile(body.fileUuid);
+	@UsePipes(new ValidationPipe())
+	@Delete(':id')
+
+	// @UseGuards(JwtAuthGuard)
+	remove(@Param('id') id: string) {
+		return this.filesService.removeFile(id);
 	}
+
+	// @ApiTags('posts')
+	// @UsePipes(new ValidationPipe())
+	// // @UseGuards(JwtAuthGuard)
+	// @Delete(':id')
+	// remove(@Param('id') id: string) {
+	// 	return this.postsService.remove(+id);
+	// }
 }
