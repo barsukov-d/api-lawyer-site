@@ -38,21 +38,21 @@ export class FilesController {
 	async uploadFile(
 		@UploadedFiles() files: Array<Express.Multer.File>,
 	): Promise<FileElementResponse[]> {
-		const saveArray: MFile[] = [];
-		for (const file of files) {
-			if (file.mimetype.includes('image')) {
-				const buffer = await this.filesService.convertToWebP(file.buffer);
-				saveArray.push(
-					new MFile({
-						originalname: `${file.originalname.split('.')[0]}.webp`,
-						buffer: buffer,
-					}),
-				);
-			}
-			saveArray.push(new MFile(file));
-		}
+		// const saveArray: MFile[] = [];
+		// for (const file of files) {
+		// 	if (file.mimetype.includes('image')) {
+		// 		const buffer = await this.filesService.convertToWebP(file.buffer);
+		// 		saveArray.push(
+		// 			new MFile({
+		// 				originalname: `${file.originalname.split('.')[0]}.webp`,
+		// 				buffer: buffer,
+		// 			}),
+		// 		);
+		// 	}
+		// 	saveArray.push(new MFile(file));
+		// }
 
-		return this.filesService.saveFiles(saveArray);
+		return this.filesService.saveFiles(files);
 	}
 
 	@ApiTags('files')
@@ -64,7 +64,7 @@ export class FilesController {
 	@ApiTags('files')
 	@Get('all-webp')
 	async getAllFilesByWebP() {
-		return this.filesService.getAllFilesByWebP();
+		return await this.filesService.getAllFilesByWebP();
 	}
 
 	@ApiTags('files')
