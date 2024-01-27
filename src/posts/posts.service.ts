@@ -6,6 +6,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { PostTag } from './entities/post-tag.entity';
 import { Tag } from 'src/tags/entities/tag.entity';
 import { Category } from 'src/categories/entities/category.entity';
+import { FindOptions } from 'sequelize/types/model';
 
 @Injectable()
 export class PostsService implements OnModuleInit {
@@ -38,8 +39,9 @@ export class PostsService implements OnModuleInit {
 		return post;
 	}
 
-	async findAll() {
+	async findAll(options?: FindOptions) {
 		const posts = await this.postRepository.findAll({
+			...options,
 			include: [
 				{ model: Tag, through: { attributes: [] } }, // exclude PostTag attributes
 				{ model: Category },

@@ -9,6 +9,7 @@ import {
 	UsePipes,
 	ValidationPipe,
 	UseGuards,
+	Query,
 } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/create-post.dto';
@@ -31,13 +32,29 @@ export class PostsController {
 		return this.postsService.create(createPostDto);
 	}
 
+	// @ApiTags('posts')
+	// @UsePipes(new ValidationPipe())
+	// @Get()
+	// findAll() {
+	// 	console.log('findAll');
+
+	// 	return this.postsService.findAll();
+	// }
+
 	@ApiTags('posts')
 	@UsePipes(new ValidationPipe())
 	@Get()
-	findAll() {
+	findAll(@Query('page') page: number, @Query('limit') limit: number) {
 		console.log('findAll');
 
-		return this.postsService.findAll();
+		page = page > 0 ? page : 1;
+		limit = limit > 0 ? limit : 10;
+		const offset = (page - 1) * limit;
+
+		return this.postsService.findAll({
+			limit: +limit,
+			offset: +offset,
+		});
 	}
 
 	@ApiTags('posts')
