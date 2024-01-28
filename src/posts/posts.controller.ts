@@ -44,7 +44,11 @@ export class PostsController {
 	@ApiTags('posts')
 	@UsePipes(new ValidationPipe())
 	@Get()
-	findAll(@Query('page') page: number, @Query('limit') limit: number) {
+	findAll(
+		@Query('page') page: number,
+		@Query('limit') limit: number,
+		@Query('order') order: 'ASC' | 'DESC',
+	) {
 		console.log('findAll');
 
 		page = page > 0 ? page : 1;
@@ -54,6 +58,7 @@ export class PostsController {
 		return this.postsService.findAll({
 			limit: +limit,
 			offset: +offset,
+			order: [['createdAt', order || 'DESC']],
 		});
 	}
 

@@ -46,7 +46,6 @@ export class PostsService implements OnModuleInit {
 				{ model: Tag, through: { attributes: [] } }, // exclude PostTag attributes
 				{ model: Category },
 			],
-			order: [['createdAt', 'DESC']],
 		});
 		return posts;
 	}
