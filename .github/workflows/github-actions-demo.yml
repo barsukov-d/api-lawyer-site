@@ -29,3 +29,15 @@ jobs:
 
             - name: Build Nest.js app
               run: npm run build
+
+            # - name: Deploy to VPS
+            #   uses: easingthemes/ssh-deploy@v2
+
+            #   with:
+            #     SOURCE: 'dist' # Путь к собранному приложению
+            #     host: ${{ secrets.HOST }}
+            #     username: ${{ secrets.USERNAME }}
+            #     privateKey: ${{ secrets.PRIVATE_KEY }}
+            #     port: ${{ secrets.PORT }}
+            #     local: 'dist' # Путь к собранному приложению
+            #     remote: '/var/www/your-app' # Путь на сервере, куда нужно развернуть приложение
